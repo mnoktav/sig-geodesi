@@ -10,7 +10,7 @@
 	<script>
 		WebFont.load({
 			google: {"families":["Lato:300,400,700,900"]},
-			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['../assets/css/fonts.min.css']},
+			custom: {"families":["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"], urls: ['{{ asset('assets/css/fonts.min.css') }}']},
 			active: function() {
 				sessionStorage.fonts = true;
 			}
@@ -26,7 +26,7 @@
 	<div class="wrapper">
 		<div class="main-header">
 			<!-- Logo Header -->
-			<div class="logo-header" data-background-color="blue">
+			<div class="logo-header" data-background-color="green">
 				
 				<a href="{{route('home')}}" class="logo">
 					<img src="{{asset('/assets/img/logo.png')}}" alt="navbar brand" class="navbar-brand">
@@ -46,23 +46,29 @@
 			<!-- End Logo Header -->
 
 			<!-- Navbar Header -->
-			<nav class="navbar navbar-header navbar-expand-lg" data-background-color="blue2">
+			<nav class="navbar navbar-header navbar-expand-lg" data-background-color="green2">
 				<div class="container-fluid">
 					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
 						<li class="nav-item dropdown hidden-caret">
 							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
 								<div class="avatar-sm">
-									<img src="{{asset('assets/img/ig.jpg')}}" alt="..." class="avatar-img rounded-circle">
+									<img src="{{asset('assets/img/user.png')}}" alt="..." class="avatar-img rounded-circle">
 								</div>
 							</a>
 							<ul class="dropdown-menu dropdown-user animated fadeIn">
 								<div class="dropdown-user-scroll scrollbar-outer">
 									<li>
 										<div class="user-box">
-											<div class="avatar-lg"><img src="{{asset('assets/img/ig.jpg')}}" alt="image profile" class="avatar-img rounded"></div>
+											<div class="avatar-lg"><img src="{{asset('assets/img/user.png')}}" alt="image profile" class="avatar-img rounded"></div>
 											<div class="u-text">
-												<h4>{{Auth::user()->name}}</h4>
+												<h4>
+													{{Auth::user()->name}}
+													@if (Auth::user()->role == 0)
+														<span class="text-muted">(User)</span>
+													@endif
+												</h4>
 												<p class="text-muted">{{ Auth::user()->email}}</p>
+												
 												<form action="{{route('logout')}}" method="post">
 													@csrf
 													<button class="btn btn-xs btn-secondary btn-sm" type="submit">Logout</button>
@@ -85,33 +91,21 @@
 				<div class="sidebar-content">
 					<div class="user">
 						<div class="avatar-sm float-left mr-2">
-							<img src="../assets/img/ig.jpg" alt="..." class="avatar-img rounded-circle">
+							<img src="{{ asset('assets/img/user.png') }}" alt="..." class="avatar-img rounded-circle">
 						</div>
 						<div class="info">
 							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
 									{{Auth::user()->name}}
 									<span class="user-level">{{Auth::user()->email}}</span>
-									<span class="caret"></span>
 								</span>
 							</a>
 							<div class="clearfix"></div>
-
-							<div class="collapse in" id="collapseExample">
-								<ul class="nav">
-                                    <li>
-										<form action="{{route('logout')}}" method="post">
-											@csrf
-											<button class="btn btn-xs btn-secondary btn-sm" type="submit">Logout</button>
-										</form>
-									</li>
-								</ul>
-							</div>
 						</div>
 					</div>
 					<ul class="nav nav-primary">
 						<li class="nav-item">
-							<a href="{{route('home')}}">
+							<a href="{{route('user.home')}}">
 								<i class="fas fa-home"></i>
 								<p>Dashboard</p>
 							</a>
@@ -131,17 +125,17 @@
 							<div class="collapse" id="base">
 								<ul class="nav nav-collapse">
 									<li>
-										<a href="{{route('datatable.read')}}">
+										<a href="{{route('user.datatable')}}">
 											<span class="sub-item">Table</span>
 										</a>
 									</li>
 									<li>
-										<a href="{{route('datagrafik.read')}}">
+										<a href="{{route('user.datagrafik')}}">
 											<span class="sub-item">Graph</span>
 										</a>
 									</li>
 									<li>
-										<a href="{{route('datamaps.read')}}">
+										<a href="{{route('user.datamaps')}}">
 											<span class="sub-item">Maps</span>
 										</a>
 									</li>
@@ -217,7 +211,7 @@
 	<script src="../assets/js/demo.js"></script>
 	@yield('script')
 	<script>
-		$('#multi-filter-select').DataTable( {
+		$('#multi-filter-select').DataTable({
 				"pageLength": 25,
 			});
 	</script>

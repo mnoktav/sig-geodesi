@@ -62,9 +62,11 @@
                             </div>
                             <div class="card-action text-center">
                                 <button class="btn btn-primary">Login</button>
+                                <p class="mt-4" style="margin-bottom: 0;">User Register <a href="{{ route('register') }}">di sini</a></p>
                             </div>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
